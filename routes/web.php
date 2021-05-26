@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MaterialsController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SuppliersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +22,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/materials', [MaterialsController::class, 'index'])->name('materials');
+
+    Route::get('/products', [ProductsController::class, 'index'])->name('products');
+    Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
+
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
+
+    Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers');
+});
